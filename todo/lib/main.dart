@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'ui/pages/home_page.dart';
-import 'ui/pages/notification_screen.dart';
+import 'package:todo/ui/theme.dart';
+import 'services/theme_services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,13 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(
-          primaryColor: Colors.teal,
-          // ignore: deprecated_member_use
-          backgroundColor: Colors.black),
+      theme: Themes.lightTheme,
+      darkTheme: Themes.darkTheme,
+      themeMode: ThemeServices().getTheme,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: const NotificationScreen(payload: "Title | Description | 10:20"),
+      home: const HomePage(),
     );
   }
 }
