@@ -1,5 +1,6 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +12,7 @@ import 'package:todo/extetions.dart';
 import 'package:todo/ui/theme.dart';
 import 'package:intl/intl.dart';
 import '../../controllers/task_controller.dart';
+import 'package:todo/services/notification_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,9 +22,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late NotifyHelper notyfyHelper;
+
+  @override
+  void initState() {
+    super.initState();
+    notyfyHelper = NotifyHelper();
+    notyfyHelper.requestIOSPermessions();
+    notyfyHelper.initializedNotification();
+  }
+
   final TaskController _taskController = Get.put(TaskController());
   DateTime _selectedDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -49,6 +60,8 @@ class _HomePageState extends State<HomePage> {
       leading: IconButton(
           onPressed: () {
             ThemeServices().switchTheme();
+            notyfyHelper.displatNotification(
+                title: "Theme Switched", body: "Theme Switched body");
           },
           icon: Icon(
             Get.isDarkMode

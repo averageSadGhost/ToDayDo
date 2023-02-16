@@ -4,8 +4,9 @@ import 'ui/pages/home_page.dart';
 import 'package:todo/ui/theme.dart';
 import 'services/theme_services.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized;
 }
 
 class MyApp extends StatelessWidget {
