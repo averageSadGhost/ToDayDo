@@ -14,7 +14,7 @@ class Themes {
   static final lightTheme = ThemeData(
     primaryColor: primaryClr,
     // ignore: deprecated_member_use
-    backgroundColor: primaryClr,
+    backgroundColor: Colors.grey[50],
     brightness: Brightness.light,
   );
 

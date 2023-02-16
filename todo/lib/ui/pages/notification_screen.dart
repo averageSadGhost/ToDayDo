@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo/extetions.dart';
 import 'package:todo/ui/theme.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -22,6 +23,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ignore: deprecated_member_use
+      backgroundColor: context.theme.backgroundColor,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -42,7 +45,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 20),
+            20.sbh,
             Column(
               children: [
                 Text(
@@ -53,7 +56,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     color: Get.isDarkMode ? Colors.white : darkGreyClr,
                   ),
                 ),
-                const SizedBox(height: 10),
+                10.sbh,
                 Text(
                   "You have a new reminder",
                   style: TextStyle(
@@ -64,7 +67,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            20.sbh,
             Expanded(
               child: Container(
                 padding:
@@ -79,14 +82,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        children: const [
-                          Icon(
+                        children: [
+                          const Icon(
                             Icons.text_format,
                             color: Colors.white,
                             size: 35,
                           ),
-                          SizedBox(width: 20),
-                          Text(
+                          20.sbw,
+                          const Text(
                             "Title",
                             style: TextStyle(
                               fontSize: 30,
@@ -96,7 +99,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      20.sbh,
                       Text(
                         _payload.split('|')[0],
                         style: const TextStyle(
@@ -105,16 +108,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                         textAlign: TextAlign.justify,
                       ),
-                      const SizedBox(height: 20),
+                      20.sbh,
                       Row(
-                        children: const [
-                          Icon(
+                        children: [
+                          const Icon(
                             Icons.description,
                             color: Colors.white,
                             size: 35,
                           ),
-                          SizedBox(width: 20),
-                          Text(
+                          20.sbw,
+                          const Text(
                             "Description",
                             style: TextStyle(
                               fontSize: 30,
@@ -124,7 +127,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      20.sbh,
                       Text(
                         _payload.split('|')[1],
                         style: const TextStyle(
@@ -133,16 +136,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                         textAlign: TextAlign.justify,
                       ),
-                      const SizedBox(height: 20),
+                      20.sbh,
                       Row(
-                        children: const [
-                          Icon(
+                        children: [
+                          const Icon(
                             Icons.calendar_today_outlined,
                             color: Colors.white,
                             size: 35,
                           ),
-                          SizedBox(width: 20),
-                          Text(
+                          20.sbw,
+                          const Text(
                             "Date",
                             style: TextStyle(
                               fontSize: 30,
@@ -152,7 +155,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      20.sbh,
                       Text(
                         _payload.split('|')[2],
                         style: const TextStyle(
@@ -161,13 +164,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                         textAlign: TextAlign.justify,
                       ),
-                      const SizedBox(height: 20),
+                      20.sbh,
                     ],
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            10.sbh,
           ],
         ),
       ),
