@@ -1,9 +1,10 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo/models/task.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/ui/pages/add_task_page.dart';
 import 'package:todo/ui/size_config.dart';
@@ -11,6 +12,7 @@ import 'package:todo/ui/widgets/button.dart';
 import 'package:todo/extetions.dart';
 import 'package:todo/ui/theme.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/ui/widgets/task_tile.dart';
 import '../../controllers/task_controller.dart';
 import 'package:todo/services/notification_services.dart';
 
@@ -46,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           _addTaskBar(),
           _addDateBar(),
           6.sbh,
-          _showTasks(),
+          _taskController.taskList.isEmpty ? _noTaskMsg() : _showTasks(),
         ],
       ),
     );
@@ -60,8 +62,6 @@ class _HomePageState extends State<HomePage> {
       leading: IconButton(
           onPressed: () {
             ThemeServices().switchTheme();
-            notyfyHelper.displatNotification(
-                title: "Theme Switched", body: "Theme Switched body");
           },
           icon: Icon(
             Get.isDarkMode
@@ -148,7 +148,40 @@ class _HomePageState extends State<HomePage> {
   }
 
   _showTasks() {
-    return Expanded(child: _noTaskMsg());
+    return Expanded(
+      child: ListView.builder(
+        scrollDirection: SizeConfig.orientation == Orientation.landscape
+            ? Axis.horizontal
+            : Axis.vertical,
+        itemBuilder: ((context, index) {
+          Task task = _taskController.taskList[index];
+          String hour = task.startTime.toString().split(":")[0];
+          String minute = task.startTime.toString().split(":")[1];
+          DateTime date = DateFormat.jm().parse(task.startTime!);
+          String myTime = DateFormat("HH:mm").format(date);
+
+          notyfyHelper.scheduledNotification(
+            int.parse(myTime.toString().split(":")[0]),
+            int.parse(myTime.toString().split(":")[1]),
+            task,
+          );
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(milliseconds: 700),
+            child: SlideAnimation(
+              horizontalOffset: 300,
+              child: FadeInAnimation(
+                child: GestureDetector(
+                  onTap: () => _showBottomSheet(context, task),
+                  child: TaskTile(task: task),
+                ),
+              ),
+            ),
+          );
+        }),
+        itemCount: _taskController.taskList.length,
+      ),
+    );
   }
 
   _noTaskMsg() {
@@ -191,6 +224,101 @@ class _HomePageState extends State<HomePage> {
           ),
         )
       ],
+    );
+  }
+
+  _buildBottomSheet({
+    required String label,
+    required Function() onTap,
+    required Color clr,
+    bool isClose = false,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        height: 65,
+        width: SizeConfig.screenWidth * 0.9,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: isClose
+                ? Get.isDarkMode
+                    ? Colors.grey[600]!
+                    : Colors.grey[600]!
+                : clr,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          color: isClose ? Colors.transparent : clr,
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style:
+                isClose ? titleStyle : titleStyle.copyWith(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _showBottomSheet(BuildContext context, Task task) {
+    Get.bottomSheet(
+      SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.only(top: 4),
+          width: SizeConfig.screenWidth,
+          height: (SizeConfig.orientation == Orientation.landscape)
+              ? (task.isCompleted == 1
+                  ? SizeConfig.screenHeight * 0.6
+                  : SizeConfig.screenHeight * 0.8)
+              : (task.isCompleted == 1
+                  ? SizeConfig.screenHeight * 0.3
+                  : SizeConfig.screenHeight * 0.39),
+          color: Get.isDarkMode ? darkHeaderClr : Colors.white,
+          child: Column(
+            children: [
+              Flexible(
+                child: Container(
+                  height: 6,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Get.isDarkMode ? Colors.grey[600] : Colors.grey[300],
+                  ),
+                ),
+              ),
+              20.sbh,
+              task.isCompleted == 1
+                  ? Container()
+                  : _buildBottomSheet(
+                      label: "Task Completed",
+                      onTap: () {
+                        ThemeServices().switchTheme();
+                      },
+                      clr: primaryClr,
+                    ),
+              _buildBottomSheet(
+                label: "Delete Task",
+                onTap: () {
+                  ThemeServices().switchTheme();
+                },
+                clr: primaryClr,
+              ),
+              Divider(color: Get.isDarkMode ? Colors.grey : darkGreyClr),
+              5.sbh,
+              _buildBottomSheet(
+                label: "Cancel",
+                onTap: () {
+                  Get.back();
+                },
+                clr: primaryClr,
+              ),
+              20.sbh
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
