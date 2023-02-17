@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/controllers/task_controller.dart';
 import 'package:todo/extetions.dart';
+import 'package:todo/models/task.dart';
 import 'package:todo/ui/theme.dart';
 import 'package:todo/ui/widgets/button.dart';
 import 'package:todo/ui/widgets/input_field.dart';
@@ -55,8 +56,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
               InputField(
                 title: "Date",
                 hint: DateFormat.yMd().format(_selectedDate),
-                widget: const Icon(
-                  Icons.calendar_today_outlined,
+                widget: IconButton(
+                  onPressed: () => _getDateFromUser(),
+                  icon: const Icon(Icons.calendar_today_outlined),
                   color: Colors.grey,
                 ),
               ),
@@ -66,7 +68,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     child: InputField(
                       title: "Start time",
                       hint: _startTime,
-                      widget: const Icon(Icons.access_time_rounded),
+                      widget: IconButton(
+                        onPressed: () => _getTimeFromUser(isStartTime: true),
+                        icon: const Icon(Icons.access_time_rounded),
+                      ),
                     ),
                   ),
                   12.sbw,
@@ -74,7 +79,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     child: InputField(
                       title: "End time",
                       hint: _endTime,
-                      widget: const Icon(Icons.access_time_rounded),
+                      widget: IconButton(
+                        onPressed: () => _getTimeFromUser(isStartTime: false),
+                        icon: const Icon(Icons.access_time_rounded),
+                      ),
                     ),
                   ),
                 ],
@@ -162,7 +170,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   MyButton(
                     label: "Create Task",
                     onTap: () {
-                      Get.back();
+                      _validate();
                     },
                   )
                 ],
@@ -197,6 +205,83 @@ class _AddTaskPageState extends State<AddTaskPage> {
         20.sbw,
       ],
     );
+  }
+
+  _validate() {
+    if (_titileController.text.isNotEmpty || _noteController.text.isNotEmpty) {
+      _addTaskToDb();
+      Get.back();
+    } else if (_titileController.text.isEmpty || _noteController.text.isEmpty) {
+      Get.snackbar(
+        "required",
+        "All fields are required!",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Get.isDarkMode ? darkHeaderClr : Colors.grey[300],
+        colorText: pinkClr,
+        icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+      );
+    }
+  }
+
+  _addTaskToDb() async {
+    int value = await _taskController.addTask(
+      task: Task(
+        title: _titileController.text,
+        note: _noteController.text,
+        isCompleted: 0,
+        date: DateFormat.yMd().format(_selectedDate),
+        startTime: _startTime,
+        endTime: _endTime,
+        color: _selectedColor,
+        remind: _selectedRemind,
+        repeat: _startTime,
+      ),
+    );
+    debugPrint(value.toString());
+  }
+
+  _getDateFromUser() {
+    showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+    ).then((pickedDate) {
+      if (pickedDate != null) {
+        setState(() {
+          _selectedDate = pickedDate;
+        });
+      } else {
+        debugPrint("Date not picked pickedDate = null");
+      }
+    });
+  }
+
+  _getTimeFromUser({required bool isStartTime}) {
+    showTimePicker(
+      initialEntryMode: TimePickerEntryMode.input,
+      context: context,
+      initialTime: isStartTime
+          ? TimeOfDay.fromDateTime(DateTime.now())
+          : TimeOfDay.fromDateTime(
+              DateTime.now().add(const Duration(minutes: 15))),
+    ).then((pickedTime) {
+      if (pickedTime != null) {
+        String formatedTime = pickedTime.format(context);
+        if (isStartTime) {
+          setState(() {
+            _startTime = formatedTime;
+          });
+        } else {
+          setState(() {
+            _endTime = formatedTime;
+          });
+        }
+      } else {
+        debugPrint(
+            "time not picked pickedTime = null in ${isStartTime ? "_startTime" : "_endTime"}");
+      }
+    });
   }
 
   Column _colorPalette() {

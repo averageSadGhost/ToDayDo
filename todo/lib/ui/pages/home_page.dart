@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   final TaskController _taskController = Get.put(TaskController());
-  DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           MyButton(
             label: "+ Add task",
             onTap: () {
-              Get.to(const AddTaskPage());
+              Get.to(() => const AddTaskPage());
             },
           ),
         ],
@@ -139,9 +138,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         onDateChange: (newDate) {
-          setState(() {
-            _selectedDate = newDate;
-          });
+          setState(() {});
         },
       ),
     );
@@ -155,11 +152,8 @@ class _HomePageState extends State<HomePage> {
             : Axis.vertical,
         itemBuilder: ((context, index) {
           Task task = _taskController.taskList[index];
-          String hour = task.startTime.toString().split(":")[0];
-          String minute = task.startTime.toString().split(":")[1];
           DateTime date = DateFormat.jm().parse(task.startTime!);
           String myTime = DateFormat("HH:mm").format(date);
-
           notyfyHelper.scheduledNotification(
             int.parse(myTime.toString().split(":")[0]),
             int.parse(myTime.toString().split(":")[1]),
