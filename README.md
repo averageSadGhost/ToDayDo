@@ -10,7 +10,7 @@ Things i learned while working on this project:
   - Dart extensions.
   - Local notifications.
   - Get storage.
-  - Get theme management.
+  - Theme management with Get.
   - sqflite.
   - Google fonts.
   
