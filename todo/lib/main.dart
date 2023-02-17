@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,
       themeMode: ThemeServices().getTheme,
-      title: 'To Do',
+      title: 'ToDayDo',
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
