@@ -220,12 +220,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
         colorText: pinkClr,
         icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
       );
+    } else {
+      debugPrint("Error addTask page");
     }
   }
 
   _addTaskToDb() async {
     int value = await _taskController.addTask(
-      task: Task(
+      Task(
         title: _titileController.text,
         note: _noteController.text,
         isCompleted: 0,
