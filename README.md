@@ -1,5 +1,7 @@
 # ToDo-app-with-flutter
 
+                  ToDayDo
+
 A fully functional To Do app i created with flutter during my learning journy.
 
 Things i learned while working on this project:
