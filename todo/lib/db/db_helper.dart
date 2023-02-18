@@ -44,7 +44,7 @@ class DBHelper {
 
   static Future<int> update(int id) async {
     debugPrint("DB update called");
-    return await _db!
-        .rawUpdate("UPDATE tasks,SET isCompleted = ? ,dWHERE id = ?", [1, id]);
+    return await _db!.rawUpdate(
+        "UPDATE toDoTasks SET isCompleted = ? WHERE id = ?", [1, id]);
   }
 }

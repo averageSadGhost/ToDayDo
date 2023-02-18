@@ -236,7 +236,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         endTime: _endTime,
         color: _selectedColor,
         remind: _selectedRemind,
-        repeat: _startTime,
+        repeat: _selectedRepeat,
       ),
     );
     debugPrint(value.toString());
@@ -288,6 +288,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   Column _colorPalette() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Color", style: titleStyle),
         6.sbh,

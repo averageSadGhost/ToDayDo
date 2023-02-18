@@ -21,7 +21,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Scaffold(
       // ignore: deprecated_member_use
       backgroundColor: context.theme.backgroundColor,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
-import 'ui/pages/home_page.dart';
+import 'package:todo/db/db_helper.dart';
 import 'package:todo/ui/theme.dart';
 import 'services/theme_services.dart';
-import 'package:todo/db/db_helper.dart';
+import 'ui/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
