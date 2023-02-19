@@ -88,10 +88,19 @@ class NotifyHelper {
   tz.TZDateTime _nextInstanceOfTenAM(
       int hour, int minutes, int remind, String repeat, String date) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);
 
     var formatedDate = DateFormat().add_yMd().parse(date);
+
+    final tz.TZDateTime formatedLocalDate =
+        tz.TZDateTime.from(formatedDate, tz.local);
+
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+        tz.local,
+        formatedLocalDate.year,
+        formatedLocalDate.month,
+        formatedLocalDate.day,
+        hour,
+        minutes);
 
     scheduledDate = scheduledDate.subtract(Duration(minutes: remind));
 
