@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo/db/db_helper.dart';
 import 'package:todo/models/task.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/ui/pages/add_task_page.dart';
@@ -59,17 +60,29 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: context.theme.backgroundColor,
       elevation: 0,
       leading: IconButton(
+        onPressed: () {
+          ThemeServices().switchTheme();
+        },
+        icon: Icon(
+          Get.isDarkMode
+              ? Icons.wb_sunny_outlined
+              : Icons.nightlight_round_outlined,
+          size: 24,
+          color: Get.isDarkMode ? Colors.white : darkGreyClr,
+        ),
+      ),
+      actions: [
+        IconButton(
           onPressed: () {
-            ThemeServices().switchTheme();
+            DBHelper.deleteAll();
+            _taskController.getTasks();
           },
           icon: Icon(
-            Get.isDarkMode
-                ? Icons.wb_sunny_outlined
-                : Icons.nightlight_round_outlined,
+            Icons.cleaning_services_outlined,
             size: 24,
             color: Get.isDarkMode ? Colors.white : darkGreyClr,
-          )),
-      actions: [
+          ),
+        ),
         const CircleAvatar(
           backgroundImage: AssetImage("images/person.jpeg"),
           radius: 18,

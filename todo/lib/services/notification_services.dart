@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -92,9 +91,9 @@ class NotifyHelper {
     tz.TZDateTime scheduledDate =
         tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);
 
-    scheduledDate = scheduledDate.subtract(Duration(minutes: remind));
-
     var formatedDate = DateFormat().add_yMd().parse(date);
+
+    scheduledDate = scheduledDate.subtract(Duration(minutes: remind));
 
     if (scheduledDate.isBefore(now)) {
       if (repeat == "Daily") {
@@ -108,6 +107,7 @@ class NotifyHelper {
             formatedDate.month + 1, formatedDate.day, hour, minutes);
       }
     }
+    scheduledDate = scheduledDate.subtract(Duration(minutes: remind));
     return scheduledDate;
   }
 
