@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     notyfyHelper = NotifyHelper();
-    notyfyHelper.requestIOSPermissions();
     notyfyHelper.initializeNotification();
     super.initState();
     _taskController.getTasks();
@@ -170,7 +169,6 @@ class _HomePageState extends State<HomePage> {
                   DateTime date = DateFormat.jm().parse(task.endTime!);
                   String myTime = DateFormat("HH:mm").format(date);
                   List<String> time = myTime.split(":");
-                  debugPrint(myTime);
                   NotifyHelper().scheduledNotification(
                       int.parse(time[0]), int.parse(time[1]), task);
                   if ((task.date == DateFormat.yMd().format(_selectedDate) ||
@@ -319,6 +317,7 @@ class _HomePageState extends State<HomePage> {
                   : _buildBottomSheet(
                       label: "Task Completed",
                       onTap: () {
+                        notyfyHelper.deleteNotification(task);
                         _taskController.markTaskCompleted(task.id!);
                         Get.back();
                       },
@@ -327,6 +326,7 @@ class _HomePageState extends State<HomePage> {
               _buildBottomSheet(
                 label: "Delete Task",
                 onTap: () {
+                  notyfyHelper.deleteNotification(task);
                   _taskController.deleteTasks(task);
                   Get.back();
                 },

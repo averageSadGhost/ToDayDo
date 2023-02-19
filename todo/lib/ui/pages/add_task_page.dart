@@ -25,7 +25,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       .format(DateTime.now().add(const Duration(minutes: 15)))
       .toString();
   int _selectedRemind = 5;
-  List<int> remindList = [5, 10, 15, 20];
+  List<int> remindList = [0, 5, 10, 15, 20];
   String _selectedRepeat = "None";
   List<String> repeatList = ["None", "Daily", "Weekly", "Monthly"];
   int _selectedColor = 0;
@@ -89,7 +89,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               InputField(
                 title: "Reminder",
-                hint: "$_selectedRemind minutes early",
+                hint: _selectedRemind == 0
+                    ? "None"
+                    : "$_selectedRemind minutes early",
                 widget: Row(
                   children: [
                     DropdownButton(
@@ -100,7 +102,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             (item) => DropdownMenuItem(
                               value: item,
                               child: Text(
-                                "$item",
+                                item == 0 ? "None" : item.toString(),
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),

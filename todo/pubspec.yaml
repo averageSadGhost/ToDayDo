@@ -26,6 +26,7 @@ dependencies:
   date_picker_timeline: ^1.2.3
   timezone: ^0.9.1
   dbus: ^0.7.8
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
@@ -36,7 +37,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "images/appicon.jpeg"
+  image_path: "images/applogo.jpeg"
 
 
 flutter:
@@ -45,3 +46,4 @@ flutter:
   assets:
     - images/person.jpeg
     - images/task.svg
+    - images/applogo.jpeg
