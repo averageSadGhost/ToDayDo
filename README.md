@@ -8,7 +8,6 @@ Things i learned while working on this project:
   - Getx state management.
   - Ui responsiveness.
   - Dart extensions.
-  - Dart enums
   - Local notifications.
   - Get storage.
   - Theme management with Get.
