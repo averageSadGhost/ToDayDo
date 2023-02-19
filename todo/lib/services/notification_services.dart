@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-
 import '/models/task.dart';
 import '/ui/pages/notification_screen.dart';
 
@@ -46,6 +45,10 @@ class NotifyHelper {
 
   deleteNotification(Task task) async {
     await flutterLocalNotificationsPlugin.cancel(task.id!);
+  }
+
+  deleteAllNotification() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   displayNotification({required String title, required String body}) async {
@@ -115,8 +118,9 @@ class NotifyHelper {
         scheduledDate = tz.TZDateTime(tz.local, now.year,
             formatedDate.month + 1, formatedDate.day, hour, minutes);
       }
+      scheduledDate = scheduledDate.subtract(Duration(minutes: remind));
     }
-    scheduledDate = scheduledDate.subtract(Duration(minutes: remind));
+
     return scheduledDate;
   }
 

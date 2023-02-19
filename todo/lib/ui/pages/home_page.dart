@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
         IconButton(
           onPressed: () {
             DBHelper.deleteAll();
+            notyfyHelper.deleteAllNotification();
             _taskController.getTasks();
           },
           icon: Icon(
