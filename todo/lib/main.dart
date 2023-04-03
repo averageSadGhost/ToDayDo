@@ -3,6 +3,7 @@ import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:todo/db/db_helper.dart';
+import 'package:todo/ui/pages/splash_screen.dart';
 import 'package:todo/ui/theme.dart';
 import 'services/theme_services.dart';
 import 'ui/pages/home_page.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeServices().getTheme,
       title: 'ToDayDo',
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const SplashPage(),
     );
   }
 }
