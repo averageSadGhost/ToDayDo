@@ -1,6 +1,6 @@
 # ToDayDo
 
-A fully functional To Do app i created with flutter during my learning journy.
+A fully functional To Do app i created with flutter during my learning journey.
 
 Things i learned while working on this project:
 
